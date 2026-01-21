@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getoneproductAPI } from "../services/allAPIs";
 
 function EditProduct() {
   const navigate = useNavigate();
+  const {id}=useParams()
+   const [productDetails, setProductDetails] = useState({
+    name: "",
+    price: "",
+    category: "",
+    description: "",
+  });
+  const getProductDetails=async()=>{
+    const response=await getoneproductAPI(id)
+    setProductDetails(response.data.oneproduct);
+  }
+
+  useEffect(()=>{
+    getProductDetails();
+  },[])
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center p-5">

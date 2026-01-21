@@ -1,15 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { getProductAPI } from "../services/allAPIs";
+import { deleteProductAPI, getProductAPI } from "../services/allAPIs";
 
 function ProductHome() {
   const navigate = useNavigate();
   const [allproducts,setAllProducts]=useState([])
   const getproducts=async()=>{
+    try{
     const response=await getProductAPI()
     console.log(response.data);
     setAllProducts(response.data.allproducts)
+    }
+    catch(err){
+      console.log("error"+err);
+    }
+   
+  }
+  const handledelete=async(id)=>{
+    try{
+    const response=await deleteProductAPI(id)
+    if(response.status===200) {
+        alert("Deleted successfully");
+        getproducts();
+    }
+    else{
+      alert("Delete failed")
+    }
+    }
+    catch(err){
+      console.log("error"+err);
+    }
+   
   }
   useEffect(()=>{
     getproducts();
@@ -28,7 +50,7 @@ function ProductHome() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {allproducts.length>0?
         allproducts.map((item)=>(
-<Card key={item._id} className="shadow-md">
+        <Card key={item._id} className="shadow-md">
           <h5 className="text-xl font-bold tracking-tight text-gray-900">
             
             
@@ -48,11 +70,11 @@ function ProductHome() {
           </p>
 
           <div className="flex gap-3 mt-4">
-            <Button   className="!bg-blue-600" onClick={() => navigate("/edit")} color="warning" size="sm">
+            <Button   className="!bg-blue-600" onClick={() => navigate(`edit/${item._id}`)} color="warning" size="sm">
               Edit
             </Button>
 
-            <Button color="failure" size="sm">
+            <Button color="failure" size="sm" onClick={()=>handledelete(item._id)} >
               Delete
             </Button>
           </div>
