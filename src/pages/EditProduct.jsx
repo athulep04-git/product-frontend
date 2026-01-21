@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getoneproductAPI } from "../services/allAPIs";
+import { getoneproductAPI, updateProductAPI } from "../services/allAPIs";
 
 function EditProduct() {
   const navigate = useNavigate();
@@ -15,6 +15,10 @@ function EditProduct() {
   const getProductDetails=async()=>{
     const response=await getoneproductAPI(id)
     setProductDetails(response.data.oneproduct);
+  }
+  const updateProductDetails=async()=>{
+    const response=await updateProductAPI(id,productDetails)
+    console.log(response);
   }
 
   useEffect(()=>{
@@ -34,7 +38,6 @@ function EditProduct() {
             value={productDetails.name}
             onChange={(e)=>setProductDetails({...productDetails,name:e.target.value})}
             placeholder="Enter product name"
-            defaultValue="Laptop Pro"
           />
         </div>
 
@@ -45,7 +48,6 @@ function EditProduct() {
             value={productDetails.price}
             onChange={(e)=>setProductDetails({...productDetails,price:e.target.value})}
             placeholder="Enter price"
-            defaultValue="55000"
           />
         </div>
 
@@ -56,7 +58,6 @@ function EditProduct() {
             value={productDetails.category}
             onChange={(e)=>setProductDetails({...productDetails,category:e.target.value})}
             placeholder="Enter category"
-            defaultValue="Electronics"
           />
         </div>
 
@@ -67,13 +68,12 @@ function EditProduct() {
             onChange={(e)=>setProductDetails({...productDetails,description:e.target.value})}
             placeholder="Enter description"
             rows={4}
-            defaultValue="16GB RAM, i5 Processor, 512GB SSD"
           />
         </div>
 
       
         <div className="flex justify-center gap-4 mt-6">
-          <Button className="!bg-blue-600">Update</Button>
+          <Button className="!bg-blue-600" onClick={updateProductDetails}>Update</Button>
 
           <Button color="gray" onClick={() => navigate("/")}>
             Cancel
