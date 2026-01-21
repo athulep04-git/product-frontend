@@ -31,6 +31,8 @@ function EditProduct() {
           <Label value="Product Name" />
           <TextInput
             type="text"
+            value={productDetails.name}
+            onChange={(e)=>setProductDetails({...productDetails,name:e.target.value})}
             placeholder="Enter product name"
             defaultValue="Laptop Pro"
           />
@@ -40,6 +42,8 @@ function EditProduct() {
           <Label value="Price" />
           <TextInput
             type="number"
+            value={productDetails.price}
+            onChange={(e)=>setProductDetails({...productDetails,price:e.target.value})}
             placeholder="Enter price"
             defaultValue="55000"
           />
@@ -49,6 +53,8 @@ function EditProduct() {
           <Label value="Category" />
           <TextInput
             type="text"
+            value={productDetails.category}
+            onChange={(e)=>setProductDetails({...productDetails,category:e.target.value})}
             placeholder="Enter category"
             defaultValue="Electronics"
           />
@@ -57,6 +63,8 @@ function EditProduct() {
         <div className="mb-4">
           <Label value="Description" />
           <Textarea
+          value={productDetails.description}
+            onChange={(e)=>setProductDetails({...productDetails,description:e.target.value})}
             placeholder="Enter description"
             rows={4}
             defaultValue="16GB RAM, i5 Processor, 512GB SSD"
